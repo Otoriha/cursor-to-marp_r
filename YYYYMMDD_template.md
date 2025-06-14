@@ -20,8 +20,8 @@ style: |
   header img {
     max-height: 120px;
   }
-  /* 表紙ページの背景 */
-  section.cover {
+  /* 全ページの背景 */
+  section {
     background-image: url("./.images/background.png");
     background-position: right bottom;
     background-size: 100%;
