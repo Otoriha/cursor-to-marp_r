@@ -1,0 +1,384 @@
+---
+description: アクセシビリティとユニバーサルデザインルール
+globs:
+alwaysApply: false
+---
+# Marpアクセシビリティとユニバーサルデザインルール
+
+## 基本原則
+
+1. WCAG 2.1準拠
+   - レベルA: 最低限の基準
+   - レベルAA: 推奨基準（目標）
+   - レベルAAA: 最高基準
+
+2. 知覚可能性（Perceivable）
+   - テキストの代替手段
+   - 適応可能なコンテンツ
+   - 判別可能な情報
+
+3. 操作可能性（Operable）
+   - キーボード操作対応
+   - 十分な時間の提供
+   - 発作誘発の防止
+
+4. 理解可能性（Understandable）
+   - 読みやすいテキスト
+   - 予測可能な動作
+   - 入力支援
+
+5. 堅牢性（Robust）
+   - 互換性の確保
+   - 支援技術への対応
+
+## 視覚的アクセシビリティ
+
+### 1. コントラスト比
+```
+最低基準（WCAG AA）:
+- 通常テキスト: 4.5:1以上
+- 大きいテキスト: 3:1以上
+- UIコンポーネント: 3:1以上
+
+推奨基準（WCAG AAA）:
+- 通常テキスト: 7:1以上
+- 大きいテキスト: 4.5:1以上
+```
+
+### 2. 色覚異常への配慮
+```css
+/* 色だけに頼らない情報伝達 */
+.success {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.success::before {
+  content: "✓ ";
+}
+
+.error {
+  color: #F44336;
+  text-decoration: underline;
+}
+
+.error::before {
+  content: "✗ ";
+}
+```
+
+### 3. 適切なフォントサイズ
+```
+最小サイズ:
+- 本文: 28px以上
+- 見出し: 36px以上
+- 注釈: 20px以上
+```
+
+### 4. 読みやすい行間
+```css
+p {
+  line-height: 1.6; /* 最低1.5以上 */
+  letter-spacing: 0.02em;
+}
+```
+
+## 色覚異常対応
+
+### 色の組み合わせ
+```
+避けるべき組み合わせ:
+- 赤と緑（最も一般的な色覚異常）
+- 青と紫
+- 緑と茶色
+- 緑と灰色
+
+推奨される組み合わせ:
+- 青と黄色
+- 黒と白
+- 青と橙色
+```
+
+### カラーパレット例
+```css
+/* 色覚異常対応パレット */
+:root {
+  --primary: #0173B2;    /* 青 */
+  --secondary: #DE8F05;  /* 橙 */
+  --success: #029E73;    /* 青緑 */
+  --warning: #D55E00;    /* 朱色 */
+  --error: #CC78BC;      /* 紫 */
+}
+```
+
+## スクリーンリーダー対応
+
+### 1. セマンティックHTML
+```html
+<!-- 良い例 -->
+<section>
+  <h1>メインタイトル</h1>
+  <h2>サブタイトル</h2>
+  <p>本文</p>
+  <ul>
+    <li>項目1</li>
+    <li>項目2</li>
+  </ul>
+</section>
+
+<!-- 避けるべき例 -->
+<div>
+  <div style="font-size: 42px; font-weight: bold;">タイトル</div>
+  <div>本文</div>
+</div>
+```
+
+### 2. alt属性の適切な使用
+```html
+<!-- 装飾的な画像 -->
+<img src="decoration.png" alt="">
+
+<!-- 意味のある画像 -->
+<img src="graph.png" alt="2024年の売上推移グラフ。1月から12月まで右肩上がり">
+
+<!-- 複雑な図表 -->
+<figure>
+  <img src="chart.png" alt="組織図">
+  <figcaption>
+    詳細な組織構造の説明がここに入ります。
+  </figcaption>
+</figure>
+```
+
+### 3. ARIA属性の活用
+```html
+<!-- ランドマーク -->
+<nav aria-label="メインナビゲーション">...</nav>
+
+<!-- 状態の明示 -->
+<button aria-pressed="true">選択済み</button>
+
+<!-- 説明の関連付け */
+<img src="chart.png" aria-describedby="chart-desc">
+<div id="chart-desc">
+  このグラフは過去5年間の成長率を示しています。
+</div>
+```
+
+## キーボード操作対応
+
+### 1. フォーカス可視化
+```css
+/* デフォルトのフォーカス表示を改善 */
+*:focus {
+  outline: 3px solid #2196F3;
+  outline-offset: 2px;
+}
+
+/* フォーカスインジケーターのカスタマイズ */
+a:focus, button:focus {
+  outline: 3px solid #2196F3;
+  outline-offset: 2px;
+  background-color: rgba(33, 150, 243, 0.1);
+}
+```
+
+### 2. 論理的なタブ順序
+```html
+<!-- tabindexの適切な使用 */
+<nav>
+  <a href="#slide1" tabindex="0">スライド1</a>
+  <a href="#slide2" tabindex="0">スライド2</a>
+  <a href="#slide3" tabindex="0">スライド3</a>
+</nav>
+
+<!-- tabindex="-1"はフォーカス不可に -->
+<div tabindex="-1">装飾要素</div>
+```
+
+## 認知アクセシビリティ
+
+### 1. シンプルな言語
+- 専門用語は避ける、または説明を添える
+- 短い文章を使用
+- 箇条書きで整理
+- 1スライド1メッセージ
+
+### 2. 予測可能なレイアウト
+```
+一貫性の確保:
+- 同じ位置にナビゲーション
+- 統一されたフォント
+- 一定のカラースキーム
+- 繰り返しのパターン
+```
+
+### 3. 十分な時間の提供
+```
+自動進行の場合:
+- 一時停止ボタンの提供
+- 速度調整機能
+- スライドごとの適切な表示時間（最低30秒）
+```
+
+## アニメーション配慮
+
+### prefers-reduced-motion対応
+```css
+/* 動きを抑えたい場合の対応 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+### 発作誘発の防止
+```
+避けるべきアニメーション:
+- 1秒間に3回以上の点滅
+- 広範囲の急激な明滅
+- 激しい色の変化
+```
+
+## テキストの拡大対応
+
+### 1. レスポンシブフォントサイズ
+```css
+/* remを使用した相対サイズ */
+html {
+  font-size: 16px; /* ベースサイズ */
+}
+
+h1 {
+  font-size: 2.625rem; /* 42px */
+}
+
+p {
+  font-size: 1.75rem; /* 28px */
+}
+```
+
+### 2. テキスト拡大時のレイアウト崩れ防止
+```css
+/* 200%拡大に対応 */
+section {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+## 聴覚アクセシビリティ
+
+### 1. 音声コンテンツの代替手段
+```
+提供すべき情報:
+- 字幕（キャプション）
+- 音声の文字起こし
+- 視覚的な合図
+```
+
+### 2. 動画コンテンツ
+```html
+<video controls>
+  <source src="presentation.mp4" type="video/mp4">
+  <track kind="captions" src="captions.vtt" srclang="ja" label="日本語">
+  動画の文字起こしがここに入ります。
+</video>
+```
+
+## チェックリスト
+
+### 作成前の確認
+- [ ] ターゲット層の確認
+- [ ] アクセシビリティ要件の確認
+- [ ] 使用する色の検証
+
+### 作成中の確認
+- [ ] コントラスト比の確認
+- [ ] alt属性の設定
+- [ ] 見出しの階層構造
+- [ ] キーボード操作の確認
+
+### 完成後の確認
+- [ ] スクリーンリーダーでのテスト
+- [ ] 色覚シミュレーションの実施
+- [ ] キーボードのみでの操作確認
+- [ ] 拡大表示の確認
+
+## 検証ツール
+
+### オンラインツール
+```
+- WebAIM Contrast Checker: コントラスト比チェック
+- Color Oracle: 色覚異常シミュレーション
+- WAVE: アクセシビリティ評価
+- axe DevTools: 包括的な検証
+```
+
+### ブラウザ拡張機能
+```
+- Lighthouse (Chrome DevTools)
+- Accessibility Insights
+- axe DevTools Extension
+```
+
+## ベストプラクティス
+
+1. 包括的なデザイン
+   - 最初から全員を考慮
+   - 後付けではなく組み込み
+   - 多様性の尊重
+
+2. テストとフィードバック
+   - 実際のユーザーでテスト
+   - 支援技術を使用した検証
+   - 継続的な改善
+
+3. ドキュメント化
+   - アクセシビリティ方針の明記
+   - 代替手段の提供
+   - 問い合わせ先の明示
+
+4. 教育と意識向上
+   - チーム全体の理解
+   - ベストプラクティスの共有
+   - 最新基準の学習
+
+## 実装例
+
+### アクセシブルなスライド
+```html
+<section aria-labelledby="slide-title">
+  <h1 id="slide-title">アクセシブルなデザイン</h1>
+
+  <div role="region" aria-label="主要コンテンツ">
+    <p>
+      すべての人が利用できるデザインを目指します。
+    </p>
+
+    <ul>
+      <li><strong>視覚:</strong> 高コントラスト、大きい文字</li>
+      <li><strong>聴覚:</strong> 字幕、文字起こし</li>
+      <li><strong>認知:</strong> シンプルな言語、明確な構造</li>
+    </ul>
+  </div>
+
+  <figure>
+    <img src="accessibility.png"
+         alt="アクセシビリティアイコン: 車椅子マーク">
+    <figcaption>
+      アクセシビリティは誰もが恩恵を受けます
+    </figcaption>
+  </figure>
+</section>
+```

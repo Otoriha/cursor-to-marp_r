@@ -1,0 +1,304 @@
+---
+description: 引用と参照表記ルール
+globs:
+alwaysApply: false
+---
+# Marp引用と参照表記ルール
+
+## 基本ルール
+
+1. 引用の表記
+   - 引用符を使用（「」、""、''）
+   - 引用元を必ず明記
+   - 引用部分を視覚的に区別
+   - 長い引用はブロック引用を使用
+
+2. 参照文献の表記
+   - 著者名、タイトル、出版年を明記
+   - URLは短縮または省略を検討
+   - 統一されたフォーマット
+   - 最終スライドにまとめて記載
+
+3. 脚注の使用
+   - 補足情報に使用
+   - 番号または記号で表記
+   - スライド下部に配置
+   - フォントサイズ: 小さめ（16-20px）
+
+4. 画像の出典
+   - 画像の下または近くに記載
+   - フォントサイズ: 小さめ
+   - 「出典：」または「Source:」を使用
+   - ライセンス情報も記載
+
+5. データの出典
+   - 統計データは必ず出典を明記
+   - 調査年月を記載
+   - 信頼性の高い情報源を使用
+
+## 引用のスタイル
+
+### ブロック引用
+```markdown
+> これは引用文です。
+> 複数行にわたる場合もあります。
+>
+> — 著者名、出典
+```
+
+### CSSスタイル
+```css
+blockquote {
+  border-left: 4px solid #2196F3;
+  padding-left: 20px;
+  margin: 20px 0;
+  font-style: italic;
+  color: #666666;
+  background-color: #F5F5F5;
+  padding: 15px 20px;
+}
+
+blockquote cite {
+  display: block;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #999999;
+}
+```
+
+### インライン引用
+```css
+q {
+  quotes: "「" "」" "『" "』";
+  font-style: italic;
+}
+
+q::before {
+  content: open-quote;
+}
+
+q::after {
+  content: close-quote;
+}
+```
+
+## 参照文献の形式
+
+### APA形式
+```
+著者名. (年). タイトル. 出版社.
+例: 山田太郎. (2024). プレゼンテーションの技術. ABC出版.
+```
+
+### MLA形式
+```
+著者名. "タイトル." 出版物, 巻数, 号数, 年, ページ.
+例: 山田太郎. "効果的なスライド作成." デザイン研究, vol. 10, no. 2, 2024, pp. 15-30.
+```
+
+### IEEE形式
+```
+[番号] 著者名, "タイトル," 出版物, vol. 巻数, no. 号数, pp. ページ, 年.
+例: [1] T. Yamada, "スライドデザインの原則," デザイン学会誌, vol. 10, no. 2, pp. 15-30, 2024.
+```
+
+### Webサイトの引用
+```
+著者名. "ページタイトル." サイト名, 更新日, URL. (アクセス日).
+例: 山田太郎. "Marpの使い方." デザインブログ, 2024年1月15日,
+     https://example.com/marp-guide. (2024年11月16日アクセス).
+```
+
+## 脚注のスタイル
+
+### 番号付き脚注
+```css
+sup {
+  font-size: 0.7em;
+  color: #2196F3;
+}
+
+.footnotes {
+  position: absolute;
+  bottom: 40px;
+  left: 80px;
+  right: 80px;
+  font-size: 18px;
+  color: #666666;
+  border-top: 1px solid #CCCCCC;
+  padding-top: 10px;
+}
+```
+
+### 実装例
+```html
+本文中の参照<sup>1</sup>
+
+<div class="footnotes">
+  <sup>1</sup> 脚注の内容がここに入ります。
+</div>
+```
+
+## 画像の出典表記
+
+### 基本形式
+```html
+<figure>
+  <img src="image.png" alt="説明">
+  <figcaption style="font-size: 16px; color: #666;">
+    出典: 著者名 (年). タイトル
+  </figcaption>
+</figure>
+```
+
+### CSSスタイル
+```css
+figcaption {
+  text-align: center;
+  font-size: 16px;
+  color: #666666;
+  margin-top: 10px;
+  font-style: italic;
+}
+```
+
+## クレジット表記
+
+### フッターでの表記
+```markdown
+---
+footer: '出典: 〇〇調査 (2024年)'
+---
+```
+
+### スライド内の表記
+```html
+<div style="position: absolute; bottom: 20px; right: 20px; font-size: 14px; color: #999;">
+  出典: 〇〇白書 2024
+</div>
+```
+
+## 著作権とライセンス
+
+### CC（クリエイティブ・コモンズ）
+```
+CC BY 4.0: 著作者表示
+CC BY-SA 4.0: 著作者表示-継承
+CC BY-NC 4.0: 著作者表示-非営利
+```
+
+### 表記例
+```html
+<div style="font-size: 14px; color: #666;">
+  画像: John Doe (CC BY 4.0)
+  https://example.com/image
+</div>
+```
+
+## 参考文献リスト
+
+### 専用スライドの作成
+```markdown
+---
+# 参考文献
+
+1. 山田太郎 (2024). プレゼンテーションの技術. ABC出版.
+2. 佐藤花子 (2023). デザイン原則. XYZ出版.
+3. "Marp公式ドキュメント." https://marp.app/
+
+---
+```
+
+### スタイリング
+```css
+section.references {
+  font-size: 20px;
+}
+
+section.references ol {
+  text-align: left;
+  line-height: 1.8;
+}
+
+section.references li {
+  margin-bottom: 15px;
+}
+```
+
+## 注意事項
+
+1. 著作権の尊重
+   - 許可なく無断転載しない
+   - フェアユースの範囲を理解
+   - 必要に応じて許諾を取得
+
+2. 正確性の確保
+   - 引用は正確に
+   - 出典情報は完全に
+   - リンク切れに注意
+
+3. 一貫性の維持
+   - 同じフォーマットを使用
+   - 表記ルールを統一
+   - スタイルの統一
+
+4. 読みやすさ
+   - 過度な引用は避ける
+   - 必要最小限の情報
+   - 視覚的な整理
+
+5. アクセシビリティ
+   - URLは読み上げ可能に
+   - 代替テキストの提供
+   - 適切なコントラスト
+
+## ベストプラクティス
+
+1. 信頼性の高い情報源
+   - 公式サイト
+   - 学術論文
+   - 政府統計
+   - 業界団体の報告書
+
+2. 最新情報の使用
+   - 発行年の確認
+   - 更新日の確認
+   - 古い情報への注意
+
+3. 簡潔な表記
+   - 長いURLは短縮
+   - QRコードの活用
+   - 付録への移動
+
+4. 視覚的な区別
+   - 引用部分の背景色
+   - 枠線やボーダー
+   - イタリック体の使用
+
+## 実装例
+
+### 完全な引用例
+```html
+<blockquote style="border-left: 4px solid #2196F3; padding-left: 20px;
+                    background: #F5F5F5; padding: 15px; margin: 20px 0;">
+  デザインとは、単に美しく見せることではなく、
+  情報を効果的に伝えることである。
+  <cite style="display: block; text-align: right; margin-top: 10px;
+                font-size: 0.9em; color: #666;">
+    — デザイン原則より (山田太郎, 2024)
+  </cite>
+</blockquote>
+```
+
+### データと出典の組み合わせ
+```markdown
+# 市場成長率
+
+- 2023年: 15%成長
+- 2024年: 20%成長（予測）
+
+<div style="font-size: 16px; color: #666; margin-top: 20px;">
+出典: 業界動向調査2024 (調査会社ABC)
+</div>
+```
